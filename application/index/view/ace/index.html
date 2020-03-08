@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		{include file="public/header_com" /}
+		<title></title>
+	</head>
+	<body>
+		{include file="public/header" /}
+		<div class="followtop">
+			<div class="foowtitle">
+				<p>订阅的牛人</p>
+			</div>
+			<div class="foowmain">
+				<img class="icoleft" src="__HOME_IMG__/icoleft.png" />
+				<div class="foowdiv">
+				<ul>
+					{notempty name="rsslist"}
+		            {volist name="rsslist" id="rss"}
+					<li>
+						<img class="headimgcss106" src="{$rss.other_id|getheadimg=###}"/>
+						<dl>
+							<dt>{$rss.other_id|getvip_name=###,1}</dt>
+							<dd>总收益：<span>{$rss.sumrate}%</span></dd>
+							<dd><a href="{:url('match/userhome',['id'=>$rss['other_id']])}">TA的战绩</a></dd>
+						</dl>
+					</li>
+					{/volist}
+	            	{/notempty}
+
+	            	 
+					
+				</ul>
+				</div>
+				<img class="icoright" src="__HOME_IMG__/icoright.png" />
+			</div>
+			
+		</div>
+		<div class="follmain">
+			<div class="groom left">
+				<div class="groomtitle">
+					<p>推荐持仓</p>
+					<span>/     优质操盘达人，共享高额收益</span>
+					<!-- <a href="">更多</a> -->
+				</div>
+				<div class="groommain">
+					{notempty name="bestlist"}
+		            {volist name="bestlist" id="best"}
+					<div class="groomge">
+						<img class="headimgcss" src="{$best.user_id|getheadimg=###}" />
+						<dl>
+							<dt>{$best.user_id|getvip_name=###,1}</dt>
+							<dd>{$best.sell_time|second2string=###,1,1}</dd>
+						</dl>
+						<dl>
+							<dt>{$best.gupiao_name}</dt>
+							<dd>{$best.gupiao_code}</dd>
+						</dl>
+						<dl>
+							<dt>止盈价  <span class="red">{$best.stop_win}</span></dt>
+							<dd>止损价  <span class="green">{$best.stop_down}</span></dd>
+						</dl>
+						<dl>
+							<dt>买入价  {$best.trush_price}</dt>
+							<dd>卖出价  {$best.sell_price}</dd>
+						</dl>
+						<dl>
+							<dt>股票量  {$best.trush_number}</dt>
+							<dd>收益率   <span class="red">{$best.profits_rate}%</span></dd>
+						</dl>
+						<a href="__ROOT__/index/invest">跟买</a>
+					</div>
+					{/volist}
+	            	{/notempty}
+
+				
+					
+					<!-- <div class="tcdPageCode tcdPageCode1"></div> -->
+				</div>
+			</div>
+			<div class="charts left">
+				<div class="chartstitle">
+					<p>牛人排行</p>
+					<span>/     优质操盘达人，共享高额收益</span>
+				</div>
+				<div class="chartmain">
+					<table>
+						{notempty name="niulist"}
+		            {volist name="niulist" id="niu"}
+						<tr>
+							<td>
+								{if condition="$key == 0"}
+								<img  src="__HOME_IMG__/No1.png" />
+								{elseif condition="$key == 1"/}
+								<img  src="__HOME_IMG__/No2.png" />
+								{elseif condition="$key == 2"/}
+								<img  src="__HOME_IMG__/No3.png" />
+								{else/}
+								<img  src="__HOME_IMG__/Noall.png" />
+								{/if}
+
+							</td>
+							<td>
+								<img class="headimgcss" src="{$niu.user_id|getheadimg=###}" />
+								<dl>
+									<dt>{$niu.vip_name}</dt>
+									<dd><p onclick="setrss({$niu.user_id},this)">{if condition="$niu.rss_status eq 1"}已订阅{else /}订阅{/if}</p></dd>
+								</dl>
+							</td>
+							<td>
+								<dl>
+									<dt>总收益率：<span>{$niu.profits_rate}%</span></dt>
+									<dd>交易次数：<span>{$niu.countid}次</span></dd>
+								</dl>
+							</td>
+						</tr>
+						{/volist}
+	            	{/notempty}
+						
+					</table>
+				</div>
+			</div>
+		</div>
+		{include file="public/footer" /}
+		<script>
+			var li = $('.foowdiv li').length;
+			var liw = $('.foowdiv li').width();
+
+			$('.foowdiv ul').css('width',li*liw+(li-1)*36+li*2);
+			var i=0
+			$(".icoright").on('click',function(){
+				if(i< li-3){
+					i++;
+					$('.foowdiv ul').css('left',-(i*(liw+36)));
+				}
+				
+			})
+			$(".icoleft").on('click',function(){
+				
+				if(i>0){
+					i--
+					$('.foowdiv ul').css('left',-(i*(liw+36)))
+				}
+				
+			})
+		</script>
+		<script>
+		    $(".tcdPageCode1").createPage({
+		        pageCount:1,
+		        current:1,
+		        backFn:function(p){
+		            console.log(p);
+		        }
+		    });
+		</script>
+	</body>
+</html>

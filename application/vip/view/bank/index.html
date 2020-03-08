@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		{include file="index@public/header_com"/}
+		<title>{block name="title"}{:config('web_site_title')}{/block}</title>
+	</head>
+	<body>
+{include file="index@public/header" /}
+		<div class="usermain">
+{include file="public/left" /}
+			<div class="userright left">
+			<div class="rgbottom">
+				<div class="public">
+					<p>绑定银行卡</p>
+				</div>
+				<div class="bank">
+					<div class="bank1">
+						<p>持卡人</p>
+						<span>{$info.vip_realname}</span>
+					</div>
+					<div class="clear"></div>
+					<div class="bank2">
+						<p>所属银行</p>
+						<select id="bankname">
+							<option>请选择银行</option>
+							{foreach item="banklist" name="banklist"}
+							<option value="{$banklist.bankname}" {if condition="$banklist.bankname eq $bankinfo.bank_name"}selected="selected"{/if}>{$banklist.bankname}</option>
+							{/foreach}
+						</select>
+					</div>
+					
+					<div class="clear"></div>
+					<div class="bank2">
+						<p>银行卡卡号</p>
+						<input type="text" id="bankcard" placeholder="请输入银行卡卡号" value="{$bankinfo.bank_number}" {if condition="$bankinfo.bank_name neq ''"}disabled="disabled"{/if}/>
+					</div>
+					<div class="clear"></div>
+
+					{if condition="$bankinfo.bank_name eq ''"}
+					<div class="bank2">
+						<p>手机号</p>
+						<input type="text" placeholder="请输入预留银行手机号" value="{$info.vip_phone|hidecard=###,1}" disabled="disabled" />
+					</div>
+					<div class="clear"></div>
+					<div class="bank3">
+						<p>验证码</p>
+						<input type="text" id="phone_code" placeholder="请输入验证码"/>
+						<button id="get_phone_code">发送验证码</button>
+					</div>
+					<div class="clear"></div>
+					<button class="bankbtn" onclick="addbank()">确认</button>
+					{/if}
+					<div class="dwshow">
+						<ul>
+							<li>温馨提示</li>
+							<li>1、您使用的银行卡必须是本人的，银行卡户名必须与平台填写的姓名完全一致</li>
+							<li>2、为了您的资金安全，您的资金将由第三方充值管理</li>
+							<li>3、充值前先进行实名认证并绑定银行卡，如遇到问题请联系客服：400-400-123456</li>
+							<li>4、禁止洗钱、信用卡套现、虚假交易等行为，一经确认，将终止该账户使用；</li>
+							<li>5、为了您的资金安全，建议充值前进行实名认证，手机绑定、设置提现密码；</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<script type="text/javascript">
+	$('#get_phone_code').click(function(){
+
+
+				$('#get_phone_code').attr({"disabled":"disabled"}).css('background','#776e6d');
+			         layer.msg('发送中', {
+						  icon: 16
+						  ,shade: 0.01,time:false 
+					});
+			       $.post('/vip/bank/sendcode',function(d){
+		  		 	if(d.status==2){
+		  		 	layer.closeAll();
+		  		 	layer.msg('发送成功');
+		  		 	var leftTime = 60;
+		            var timer = setInterval(function(){  //倒计时
+		                $('#get_phone_code').text(leftTime+'秒');
+		                leftTime--;
+		                if(leftTime==0){ //重新发送
+		                    clearInterval(timer);
+		                    $('#get_phone_code').removeAttr('disabled').text('重新获取').css('background','#ec3e2e');
+		                }
+		            },1000);
+		           }else{
+
+		           		$('#get_phone_code').removeAttr('disabled').text('重新获取').css('background','#ec3e2e');
+		           		layer.msg(d.message);
+		           }
+
+		  		},'json');    
+
+
+
+
+			})
+	function addbank(){
+				var bankname = $("#bankname").val();
+				var bankcard = $("#bankcard").val();
+				var phone_code = $("#phone_code").val();
+				if(bankname == ''){
+					layer.msg("银行名称不能为空");
+					return false;
+				}
+				if(bankcard == ''){
+					layer.msg("银行账号不能为空");
+					return false;
+				}
+				if(phone_code == ''){
+					layer.msg("手机验证码不能为空");
+					return false;
+				}
+				$.post("bank/addbank",{"bankname":bankname,"bankcard":bankcard,"phone_code":phone_code},function(d){
+					if(d.status == 1){
+						layer.msg("绑定成功");
+						window.location.reload();
+
+					}else{
+						layer.msg(d.message);
+					}
+				})
+			}
+</script>
+{include file="index@public/footer"/}
+	</body>
+</html>

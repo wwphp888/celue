@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		{include file="public/header_com" /}
+
+		<title>点买策略</title>
+	</head>
+	<body>
+		{include file="public/header" /}
+		<div class="strategy">
+			<div class="strategy-title">
+				<ul class="stysels">
+					<li class="styselect">创建策略</li>
+					<li>大赛持仓</li>
+					<li>历史记录</li>
+				</ul>
+				<div class="strright right">
+					<ul>
+						<li><img src="__HOME_IMG__/stick1.png"/>账户资产：{$match_info['match_money']+$match_info['freeze']}</li>
+						<li><img src="__HOME_IMG__/stick2.png"/>持仓市值：{$gethas['has_sum']|default='0.00'}</li>
+					</ul>
+					<ul>
+						<li><img src="__HOME_IMG__/stick3.png"/>冻结资金：{$match_info.freeze|default='0.00'}</li>
+						<li><img src="__HOME_IMG__/stick4.png"/>持仓盈亏：{$gethas['yingkui']|default='0.00'}</li>
+					</ul>
+					<ul>
+						<li><img src="__HOME_IMG__/stick5.png"/>可用资金：{$match_info.match_money|default='0.00'}</li>
+						<li><img src="__HOME_IMG__/stick6.png"/>昨日盈亏：{$gethas['yest_yingkui']|default='0.00'}</li>
+					</ul>
+					
+				</div>
+			</div>
+			<div class="strategy-main" style="display: block;">
+				<div class="strategyleft left">
+					<div class="sttytitle" id="titybs">
+						
+					</div>
+					<div class="sttydata" id="canshuybs">
+						
+					</div>
+					<div class="sttybs" id="wudangybs">
+						
+					</div>
+					<div class="klines">
+						
+						<!-- <iframe name="Kcharts" src="http://stockpage.10jqka.com.cn/HQ_v4.html#hs_000001" width="619" height="550" marginheight="0" marginwidth="0" frameborder="0" scrolling="no"></iframe> -->
+					</div>
+				</div>
+				<div class="strategyright left">
+					<div class="search">
+						<input type="text" id="search_input" placeholder="平安银行   000001"/>
+						<button id="SearchBtn"><img src="__HOME_IMG__/search.png"/>选择股票</button>
+						<div id="sreachUl" class="searchDowndiv" style="display: none;">
+							<ul>
+						        <li class="hd">
+						            <em class="searc_name">名称</em>
+						            <em class="searc_code">代码</em>
+						            <em class="searc_jian">简拼</em>
+						        </li>
+						    </ul>
+						   
+					   </div>
+					</div>
+					
+
+					<div class="stymoney">
+						<p>投入信用金</p>
+						<div class="smoney">
+							<input id="money" type="" placeholder="1000"/>
+							<p>元</p>
+						</div>
+						<div class="clear"></div>
+						<p>推荐</p>
+						<ul>
+							{foreach name="strategy_list" item="strategy_list" key="k" }
+							<li {if $k==0}class="special"{/if} >{$strategy_list}</li>
+							{/foreach}
+						</ul>
+					</div>
+					<div class="stymoney1">
+						<p>信用金倍率</p>
+						<ul class="mft">
+							{foreach name="strategy_rate_list" item="strategy_rate_list" key="k" }
+							<li {if $k==0}class="special"{/if} >{$strategy_rate_list}倍</li>
+							{/foreach}
+						</ul>
+						<div class="clear"></div>
+						<p>参考本金</p>
+						<ul class="ppl" id="benjin_tj">
+							<li>1028元</li>
+							<li>2056元</li>
+							<li>5140元</li>
+							<li>8224元</li>
+						</ul>
+					</div>
+					<div class="stymoney2">
+						<p>止盈价格</p>
+						<div class="card1">
+							<p class="reduce1">-</p>
+							<input id="crd1" type="text" value="0" />
+							<p class="add1">+</p>
+						</div>
+						<span>涨至<samp class="red" id="win_rate">20%</samp>发起平仓</span>
+						<div class="clear"></div>
+						<p>止损价格</p>
+						<div class="card2">
+							<p class="reduce2">-</p>
+							<input id="crd2" type="text" value="0" />
+							<p class="add2">+</p>
+						</div>
+						<span>跌至<samp class="green" id="down_rate">20%</samp>发起平仓</span>
+						<div class="clear"></div>
+						<p>自动续费</p>
+						<img class="tan" src="__HOME_IMG__/tan.png" />
+						<div class="cell-left"><span class="switch-on" id="autofees"></span></div>
+						<span>递延费{$strategy_renewal_fee}元/万/天</span>
+					</div>
+					<div class="stymoney3">
+						<p>交易综合费</p>
+						<img class="tan" src="__HOME_IMG__/tan.png" />
+						<div class="smy"><span>{$strategy_fee}</span>元</div>
+						<div class="clear"></div>
+						<p>总计扣款</p>
+						<div class="smy1"><span id="ying_money">0.00</span>元</div>
+						<div class="clear"></div>
+						<p>可用余额</p>
+						<div class="smy1"><span>18773.70 </span>元</div>
+						<div class="toce">前去<a href="">充值</a></div>
+					</div>
+					<a href="javascript:void(0)" id="subuybotton" class="stybtn">提交策略</a>
+					<div class="agree">
+						<label class="my_protocol">
+						      <input class="input_agreement_protocol" type="checkbox" name="xieyi" />
+						      <span></span>
+						</label>
+						<p>已阅读并同意<a href="javascript:void(0)" onclick="celuemsg()">《平台策略协议》</a></p>
+					</div>
+				</div>
+			</div>
+			<!--大赛持仓-->
+			<div class="strategy-main" id="cc_strategy_list">
+
+			</div>
+			<!--历史记录-->
+			<div class="strategy-main" id="log_strategy_list">
+
+			</div>
+		</div>
+		{include file="public/footer" /}
+		<script>
+			
+		</script>
+		<script>
+			$(function(){
+				switchEvent("#fly",function(){
+					$("#network").slideUp();
+				},function(){
+					$("#network").slideDown();
+				});
+				switchEvent("#directory",function(){
+					$("#directory_content").fadeIn();
+				},function(){
+					$("#directory_content").fadeOut();
+				});
+			});
+		</script>
+		<script>
+			$(".stysels li").click(function(){
+				$(".stysels li").eq($(this).index()).addClass('styselect').siblings().removeClass('styselect');
+				$(".strategy-main").hide().eq($(this).index()).show()
+			})
+		</script>
+		<script type="text/javascript" src="__HOME_JS__/create.js" ></script>
+	</body>
+</html>

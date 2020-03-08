@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		{include file="index@public/header_com"/}
+		<title>{block name="title"}{:config('web_site_title')}{/block}</title>
+	</head>
+	<body>
+	{include file="index@public/header" /}
+		<div class="usermain">
+{include file="public/left" /}
+			<div class="userright left">
+{include file="public/acount"/}
+			<div class="rgbottom">
+				<div class="public">
+					<p>提现</p>
+					<a href="{:url('@vip/withdraw/log')}">提现记录</a>
+				</div>
+				<div class="dwl">
+				<form  id="form">
+					<div class="dwge1">
+						<p>钱包余额</p>
+						<span>{$info.vip_money}</span>
+					</div>
+					<div class="clear"></div>
+					<div class="dwge2">
+						<p>提现金额</p> 
+						<input name='withdraw_money' type="text" placeholder="请输入您要提现的金额"/>
+						<span>元</span>
+					</div>
+					<div class="clear"></div>
+					<div class="dwge3">
+						<p>银行卡</p>
+						<span>{$bankinfo.bank_number|hidecard=###,3}</span>
+					</div>
+					<div class="clear"></div>
+					<div class="dwge2">
+						<p>支付密码</p>
+						<input name='vip_paypassword' type="password" placeholder="请输入您的支付密码"/>
+						<a href="{:url('@vip/acount')}">忘记密码？</a>
+					</div>
+					<div class="clear"></div>
+					<div class="dwge3">
+						<p>手机号码</p>
+						<span>{$info.vip_phone|hidecard=###,1}</span>
+					</div>
+					<div class="clear"></div>
+					<div class="dwge4">
+						<p>手机号码</p>
+						<input id="phone" type="text" name='vip_phone' />
+						<button type="button"  id="get_phone_code" style="cursor:pointer">发送验证码</button>
+					</div>
+					<div class="clear"></div>
+					<button type="button"  style="cursor:pointer" class="dwbtn">确认提现</button>
+					<div class="dwshow">
+						<ul>
+							<li>提款T+0到账</li>
+							<li>15:00之前提交，当日到账；15:00之后提交，次日到账（节假日除外）</li>
+							<li>支持银行达到10多家</li>
+							<li>推荐您使用工商银行、建设银行、招商银行、农业银行进行提现，到账最快</li>
+							<li><span>禁止洗钱、信用卡套现、虚假交易等行为，一经确认，将终止改账户的使用</span></li>
+						</ul>
+					</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+{include file="index@public/footer"/}
+<script type="text/javascript">
+	$('#get_phone_code').click(function(){
+
+
+		/*var phone = $('#phone').val();  //获取输入的手机号码
+
+
+		var reg_phone = /1\d{10}/;
+           if(!reg_phone.test(phone)){   //验证手机是否符合格式
+                   layer.msg('手机号格式不正确')
+                    return false;
+        }*/
+
+         $('#get_phone_code').attr({"disabled":"disabled"}).css('background','#776e6d');
+         layer.msg('发送中', {
+			  icon: 16
+			  ,shade: 0.01,time:false 
+		});
+  		 $.post('/vip/withdraw/sendcode',function(d){
+  		 	if(d.status==2){
+  		 	layer.closeAll();
+  		 	layer.msg('发送成功');
+  		 	var leftTime = 60;
+            var timer = setInterval(function(){  //倒计时
+                $('#get_phone_code').text(leftTime+'秒');
+                leftTime--;
+                if(leftTime==0){ //重新发送
+                    clearInterval(timer);
+                    $('#get_phone_code').removeAttr('disabled').text('重新获取').css('background','#ec3e2e');
+                }
+            },1000);
+           }else{
+
+           		$('#get_phone_code').removeAttr('disabled').text('重新获取').css('background','#ec3e2e');
+           		layer.msg(d.message);
+           }
+
+  		},'json');
+
+
+	})
+	$('.dwbtn').click(function(){
+
+		 
+
+		
+		var data = {};
+		$.each($('#form').serializeArray(),function(i,val){
+			
+			data[val.name] = val.value;
+
+		})	
+
+		$.post('/vip/withdraw/submitwithdraw',data,function(d){
+
+			  layer.msg(d.message);
+			  window.location.reload();
+
+
+		},'json')
+
+
+
+
+
+	})
+
+</script>
+	</body>
+</html>

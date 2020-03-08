@@ -1,0 +1,33 @@
+
+<div class="col-md-{$width|default=6}">
+    <div class="block block-bordered">
+        <div class="block-header bg-gray-lighter">
+            <h3 class="block-title">代办事项</h3>
+        </div>
+        <div class="block-content">
+            <table class="table">
+                <tbody>
+                 <tr>
+                    <td>提现待审核</td>
+                    
+                      <td style="cursor:pointer;{if condition='$data.withdraw_count gt 0'}color:red;{/if}"><a href="{:url('@vip/withdraw')}">{$data['withdraw_count']}</a></td>
+                    
+                </tr>
+                 <tr>
+                    <td>充值待审核</td>
+                    <td style="cursor:pointer;{if condition='$data.charge_count gt 0'}color:red;{/if}"><a href="{:url('@vip/recharge/payoff')}">{$data['charge_count']}</a></td>
+                </tr>
+                 <tr>
+                    <td>建仓委托中订单</td>
+                    <td style="cursor:pointer;{if condition='$data.jiancang_count gt 0'}color:red;{/if}"><a href="{:url('@trade/index')}">{$data['jiancang_count']}</a></td>
+                </tr>
+                 <tr>
+                    <td>点卖委托中订单</td>
+                    <td style="cursor:pointer;{if condition='$data.dianmai_count gt 0'}color:red;{/if}"><a href="{:url('@trade/index/sell')}">{$data['dianmai_count']}</a></td>
+                </tr>
+              
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

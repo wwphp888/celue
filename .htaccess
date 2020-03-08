@@ -1,0 +1,79 @@
+RewriteEngine On
+#RewriteBase /
+
+#Redirect non-ceshi to www   
+#RewriteCond %{HTTP_HOST} !^www.(.*)   
+#RewriteRule (.*) http://www.%{HTTP_HOST}/$1 [R=301,L]  
+
+#用户
+
+#排序
+RewriteCond %{QUERY_STRING} ^(.*)$
+RewriteRule ^(apps|apps/)$ /e/action/ListInfo.php?classid=1&ph=1&orderby=newstime
+RewriteCond %{QUERY_STRING} ^(.*)$
+RewriteRule ^apps/(.*)/$ /e/action/ListInfo.php?classid=$1&ph=1&orderby=newstime
+RewriteCond %{QUERY_STRING} ^(.*)$
+RewriteRule ^apps/(|index.html|index_[0-9]+.html)$ /e/action/ListInfo.php?classid=1&page=$1&orderby=newstime
+RewriteCond %{QUERY_STRING} ^(.*)$
+RewriteRule ^apps/(.*)/(|index.html|index_[0-9]+.html)$ /e/action/ListInfo.php?classid=$1&page=$2&orderby=newstime
+
+RewriteCond %{QUERY_STRING} ^(.*)$
+RewriteRule ^(games|games/)$ /e/action/ListInfo.php?classid=2&ph=1&orderby=newstime
+RewriteCond %{QUERY_STRING} ^(.*)$
+RewriteRule ^games/(.*)/$ /e/action/ListInfo.php?classid=$1&ph=1&orderby=newstime
+RewriteCond %{QUERY_STRING} ^(.*)$
+RewriteRule ^games/(|index.html|index_[0-9]+.html)$ /e/action/ListInfo.php?classid=2&page=$1&orderby=newstime
+RewriteCond %{QUERY_STRING} ^(.*)$
+RewriteRule ^games/(.*)/(|index.html|index_[0-9]+.html)$ /e/action/ListInfo.php?classid=$1&page=$2&orderby=newstime
+
+RewriteCond %{QUERY_STRING} ^(.*)$
+RewriteRule ^(area|area/)$ /e/action/ListInfo.php?classid=1,2&ph=1&orderby=onclick&tempid=3
+RewriteCond %{QUERY_STRING} ^(.*)$
+RewriteRule ^area/(|index.html|index_[0-9]+.html)$ /e/action/ListInfo.php?classid=1,2&ph=1&orderby=onclick&tempid=3&page=$1
+RewriteCond %{QUERY_STRING} ^(.*)$
+RewriteRule ^area/(.*)/$ /e/action/ListInfo.php?classid=1,2&area=$1&ph=1&orderby=onclick&tempid=3
+RewriteCond %{QUERY_STRING} ^(.*)$
+RewriteRule ^area/(.*)/(|index.html|index_[0-9]+.html)$ /e/action/ListInfo.php?classid=1,2&ph=1&orderby=onclick&tempid=3&page=$2&aera=$1
+
+RewriteCond %{QUERY_STRING} ^(.*)$
+RewriteRule ^(areas|areas/)$ /e/action/ListInfo.php?classid=1,2&ph=1&orderby=newstime&tempid=3
+RewriteCond %{QUERY_STRING} ^(.*)$
+RewriteRule ^areas/(|index.html|index_[0-9]+.html)$ /e/action/ListInfo.php?classid=1,2&ph=1&orderby=newstime&tempid=3&page=$1
+RewriteCond %{QUERY_STRING} ^(.*)$
+RewriteRule ^areas/(.*)/$ /e/action/ListInfo.php?classid=1,2&area=$1&ph=1&orderby=newstime&tempid=3
+RewriteCond %{QUERY_STRING} ^(.*)$
+RewriteRule ^areas/(.*)/(|index.html|index_[0-9]+.html)$ /e/action/ListInfo.php?classid=1,2&ph=1&orderby=newstime&tempid=3&page=$2&aera=$1
+
+#修改
+RewriteCond %{QUERY_STRING} ^(.*)$
+RewriteRule ^page/apply/(.*)/$  /e/action/list.php?classid=28&id=$1
+
+#最新
+RewriteCond %{QUERY_STRING} ^(.*)$
+RewriteRule ^(recent|recent/)$ /e/action/ListInfo.php?classid=1,2&ph=1&orderby=newstime&tempid=4
+RewriteCond %{QUERY_STRING} ^(.*)$
+RewriteRule ^recent/(|index.html|index_[0-9]+.html)$ /e/action/ListInfo.php?classid=1,2&ph=1&orderby=newstime&tempid=4&page=$1
+
+RewriteCond %{QUERY_STRING} ^(.*)$
+RewriteRule ^(tag|tag/)$ /e/action/list.php?classid=34
+
+RewriteCond %{QUERY_STRING} ^(.*)$
+RewriteRule ^tag/(.*)/$ /e/tags/index.php?py=$1
+RewriteCond %{QUERY_STRING} ^(.*)$
+RewriteRule ^tag/(.*)/(|index.html|index_[0-9]+.html)$ /e/tags/index.php?py=$1&page=$2
+
+#栏目
+RewriteCond %{QUERY_STRING} ^(.*)$
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond $1 !^(d/|recent/|area/|apps/|e/|html/|images/|s/|search/|skin/|t/|special/)
+RewriteRule ^([0-9a-zA-Z/]+)/(|index.html|index_[0-9]+.html)$ /e/action/list.php?classid=$1&page=$2
+
+
+
+
+#内容
+RewriteCond %{QUERY_STRING} ^(.*)$
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond $1 !^(d/|e/|html/|images/|s/|search/|skin/|t/)
+RewriteRule ^([0-9a-zA-Z/]+)/([0-9a-zA-Z]+)([_0-9]*).html$ /e/action/show.php?classid=$1&id=$2&page=$3

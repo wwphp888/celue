@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+
+		{include file="index@public/header_com"/}
+		<title>{block name="title"}{:config('web_site_title')}{/block}</title>
+	<link href="__STATIC__/home/uphead/bootstrap/css/bootstrap.min.css" rel="stylesheet"> 
+ 	<link href="__STATIC__/home/uphead/cropper/cropper.min.css" rel="stylesheet">
+	<link href="__STATIC__/home/uphead/sitelogo/sitelogo.css" rel="stylesheet">
+	<script src="__STATIC__/home/uphead/cropper/cropper.min.js"></script>
+	<script src="__STATIC__/home/uphead/sitelogo/sitelogo.js"></script>
+	<script src="__STATIC__/home/uphead/bootstrap/js/bootstrap.min.js"></script>
+	</head>
+	<body>
+		{include file="index@public/header" /}
+		<div class="usermain">
+		{include file="public/left" /}
+			<div class="userright left">
+				<div class="personal" id="crop-avatar">
+					{if condition="$info.head_img neq ''"}
+					<img class="avatar-view" title="点击上传头像" src="__UPLOADS__/{$info.head_img}"/>
+					{else /}
+					<img class="avatar-view" title="点击上传头像" src="__HOME_IMG__/userhead.png"/>
+					{/if}
+					<div class="prltop">
+						<p>欢迎登陆,  <span>{$info.vip_name}</span> ！尽情享受这宁静时光吧！</p>
+						<a href="{:url('@vip/acount')}">
+						<ul>
+							<li><img src="__HOME_IMG__/start1.png"/></li>
+							<li><img src="__HOME_IMG__/start3.png"/></li>
+							<li><img src="__HOME_IMG__/start5.png"/></li>
+						</ul></a>
+						<span>上次登录时间：{$info.last_login_time|date="Y-m-d H:i:s",###}</span>
+						<div class="clear"></div>
+						<p>我的推荐码：{$info.recommendCode}</p>
+					</div>
+				</div>
+			{include file="public/acount"/}
+				<div class="transaction">
+					<div class="ttntitle">
+						<p>最近交易</p>
+						<!-- <a href="">待收明细</a> -->
+					</div>
+					<table cellpadding="0" cellspacing="0" border="0">
+						
+					
+						
+					
+					</table>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+		$(function(){
+			layer.load();	
+			$.ajax({
+
+				url:'/vip/index/get_trade_order',
+				type:'get',
+				data:{number:6},
+				dataType:'json',
+				success:function(d){
+					layer.closeAll('loading');
+					html ='<tr><th>股票</th><th>累计盈亏</th><th>收益率</th><th>总交易笔数</th><th>时间</th><th>状态</th><th>交易</th></tr>';
+					$.each(d,function(i,val){
+
+					
+						html+='<tr><td>'+val.gupiao_name+'('+val.gupiao_code+')</td>';
+						if(val.yingkui > 0){
+
+							html+='<td class="red">'+val.yingkui+'</td>';	
+						}else{
+							html+='<td class="green">'+val.yingkui+'</td>';
+						}
+						html+='<td class="green">-9.84%</td>';
+						html+='<td>1</td>';
+						html+='<td>'+val.create_time+'</td>';
+						switch(val.status){
+							case '1':
+							html+='<td>委托买入</td>';
+							break;
+							case '2':	
+							html+='<td>持仓中</td>';
+							break;
+							case '3':
+							html+='<td>委托卖出</td>';
+							break;
+							default:
+							html+='<td>已完成</td>';
+						}
+						
+						html+='<td><a style="color:#666" href="{:url("@vip/trade")}">交易明细</a></td></tr>';
+							
+
+
+
+					})
+
+					$('table').html(html);	
+
+				}
+
+			})	
+
+
+
+
+
+		})
+		
+
+		</script>
+ 	<style type="text/css">
+		.row,.col-md-9,.col-md-3{
+			box-sizing:border-box;
+			-webkit-box-sizing:border-box;
+		}
+	</style> 
+	<div class="modal fade" id="avatar-modal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<form class="avatar-form" action="{:url('@vip/index/headimg')}" enctype="multipart/form-data" method="post">
+				<div class="modal-header">
+					<button class="close" data-dismiss="modal" type="button">&times;</button>
+					<h4 class="modal-title" id="avatar-modal-label">点击上传头像</h4>
+				</div>
+				<div class="modal-body">
+					<div class="avatar-body">
+						<div class="avatar-upload">
+							<input class="avatar-src" name="avatar_src" type="hidden">
+							<input class="avatar-data" name="avatar_data" type="hidden">
+							<label for="avatarInput">图片上传</label>
+							<input class="avatar-input" id="avatarInput" name="avatar_file" type="file"></div>
+						<div class="row" style="">
+							<div class="col-md-9">
+								<div class="avatar-wrapper"></div>
+							</div>
+							<div class="col-md-3">
+								<div class="avatar-preview preview-lg"><img src="__HOME_IMG__/userhead.png"/></div>
+								<div class="avatar-preview preview-md"><img src="__HOME_IMG__/userhead.png"/></div>
+								<div class="avatar-preview preview-sm"><img src="__HOME_IMG__/userhead.png"/></div>
+							</div>
+						</div>
+						<div class="row avatar-btns">
+							<div class="col-md-9">
+								<div class="btn-group">
+									<button class="btn" data-method="rotate" data-option="-90" type="button" title="Rotate -90 degrees"><i class="fa fa-undo"></i> 向左旋转</button>
+								</div>
+								<div class="btn-group">
+									<button class="btn" data-method="rotate" data-option="90" type="button" title="Rotate 90 degrees"><i class="fa fa-repeat"></i> 向右旋转</button>
+								</div>
+							</div>
+							<div class="col-md-3">
+								<button class="btn btn-success btn-block avatar-save" type="submit"><i class="fa fa-save"></i> 保存修改</button>
+							</div>
+						</div>
+					</div>
+				</div>
+  		</form>
+  	</div>
+  </div>
+</div>
+
+<div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>
+{include file="index@public/footer" /}
+	</body>
+</html>

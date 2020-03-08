@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		{include file="public/header_com" /}
+		<title></title>
+	</head>
+	<body>
+		{include file="public/header" /}
+		<div class="article">
+			<p>首页><a href="">关于我们</a></p>
+			{include file="news/left" /}
+			<div class="articleright left">
+				<div class="listtitle">
+					<p>{$info.name}</p>
+				</div>
+				<div class="infomain">
+					<h1>{$detail.title}<span>发布时间：{$detail.create_time|date="Y-m-d",###}</span></h1>
+					
+					<div class="infocontent">{$detail.content}</div>
+					<div class="backlist"> <a href="{:url('news/list',['id'=>$detail['cid']])}">返回列表</a></div>
+				</div>
+			</div>
+		</div>
+	{include file="public/footer" /}
+	</body>
+</html>

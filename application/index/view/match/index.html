@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		{include file="public/header_com" /}
+		<title></title>
+	</head>
+	<body>
+		{include file="public/header" /}
+		<div class="mggeimg"></div>
+		<div class="mgge">
+			<div class="rule left">
+				<div class="ruletitle">
+					<p>大赛规则</p>
+					<a href="">详细规则</a>
+				</div>
+				<div class="rulemain">
+					<ul>
+						<li>1.交易前请仔细阅读相关服务协议的具体规则；全部行情与沪深交易所实盘数据一致，交易品种支持沪深上市的A股不支 持基金、权证、ST、新股申购、及不设涨跌停限制的股票（如增发） </li>
+						<li>2.交易制度：实行T+1，即当天买入的股票不能在当天卖出 </li>
+						<li>3.交易时间：上午 09:30 - 11:30 ; 下午 13:30 - 15:00 </li>
+						<li>5.平台员工及家属参赛不计入比赛排名 "</li>
+					</ul>
+				</div>
+			</div>
+			<div class="me left">
+				<div class="metitle">
+					<p>我的比赛</p>
+				</div>
+				<div class="memian">
+					<img class="bighead" src="{$match_info.vip_id|getheadimg=###}" />
+				
+					<dl>
+						<dt>{$_SESSION['vip_name']}</dt>
+						<dd>模拟资金：<span>{$match_info.match_money|default='0.00'}元</span></dd>
+						<dd>昨日收益：<span>{$yest_porify|default='0.00'}元</span></dd>
+					</dl>
+					<div class="clear"></div>
+					<a href="{:url('match/create')}"><button>创建模拟策略</button></a>
+					<a href="{:url('match/userhome')}">进入我的战绩</a>
+				</div>
+			</div>
+			<div class="clear"></div>
+			<div class="proft left">
+				<div class="profttitle">
+					<ul>
+						<li class="select">总收益排行</li>
+						<li>日收益排行</li>
+						<li>周收益排行</li>
+						<li>月收益排行</li>
+					</ul>
+				</div>
+				<div class="proftmain" style="display: block;">
+					<table border="0" cellpadding="0" cellspacing="0">
+						<tr>
+							<th>排名</th>
+							<th>用户</th>
+							<th>总资产</th>
+							<th>总收益率</th>
+							<th>交易次数</th>
+							<th>操作</th>
+						</tr>
+						<!--总收益排行-->
+						{notempty name="zsypaihang"}
+					   {volist name="zsypaihang" id="zsypaihang"}
+						<tr>
+							<td>
+								{if condition="$key eq 0"}
+								<img src="__HOME_IMG__/No1.png"/>
+								{elseif condition="$key eq 1" /}
+								<img src="__HOME_IMG__/No2.png"/>
+								{elseif condition="$key eq 2" /}
+								<img src="__HOME_IMG__/No3.png"/>
+								{else /}
+								<img src="__HOME_IMG__/Noall.png"/>
+								{/if}
+							</td>
+							<td><img class="headd headimgcss" src="{$zsypaihang.user_id|getheadimg=###}" />
+								<dl>
+									<dt>{$zsypaihang.vip_name|hidecard=###,2}</dt>
+									<dd> <p onclick="setrss({$zsypaihang.user_id},this)">{if condition="$zsypaihang.rss_status eq 1"}已订阅{else /}订阅{/if}</p></dd>
+								</dl>
+							</td>
+							<td>{$zsypaihang.sum_shizhi|shujuw=###}</td>
+							<td>{$zsypaihang.profits_rate}%</td>
+							<td>{$zsypaihang.countid}次</td>
+							<td><a href="{:url('match/userhome',['id'=>$zsypaihang['user_id']])}">TA的战绩</a></td>
+						</tr>
+						 {/volist}
+					{/notempty}
+					
+					</table>
+					<div class="tcdPageCode tcdPageCode1"></div>
+				</div>
+				<div class="proftmain">
+					<table border="0" cellpadding="0" cellspacing="0">
+						<tr>
+							<th>排名</th>
+							<th>用户</th>
+							<th>总资产</th>
+							<th>总收益率</th>
+							<th>交易次数</th>
+							<th>操作</th>
+						</tr>
+						<!--日收益排行-->
+						{notempty name="rsypaihang"}
+					   {volist name="rsypaihang" id="rsypaihang"}
+						<tr>
+							<td>
+								{if condition="$key eq 0"}
+								<img src="__HOME_IMG__/No1.png"/>
+								{elseif condition="$key eq 1" /}
+								<img src="__HOME_IMG__/No2.png"/>
+								{elseif condition="$key eq 2" /}
+								<img src="__HOME_IMG__/No3.png"/>
+								{else /}
+								<img src="__HOME_IMG__/Noall.png"/>
+								{/if}
+							</td>
+							<td><img class="headd headimgcss" src="{$rsypaihang.user_id|getheadimg=###}" />
+								<dl>
+									<dt>{$rsypaihang.vip_name}</dt>
+									<dd> <p onclick="setrss({$rsypaihang.user_id},this)">{if condition="$rsypaihang.rss_status eq 1"}已订阅{else /}订阅{/if}</p></dd>
+								</dl>
+							</td>
+							<td>{$rsypaihang.sum_shizhi|shujuw=###}</td>
+							<td>{$rsypaihang.profits_rate}%</td>
+							<td>{$rsypaihang.countid}次</td>
+							<td><a href="{:url('match/userhome',['id'=>$rsypaihang['user_id']])}">TA的战绩</a></td>
+						</tr>
+						 {/volist}
+					{/notempty}
+						
+					</table>
+					<div class="tcdPageCode tcdPageCode2"></div>
+				</div>
+				<div class="proftmain">
+					<table border="0" cellpadding="0" cellspacing="0">
+						<tr>
+							<th>排名</th>
+							<th>用户</th>
+							<th>总资产</th>
+							<th>总收益率</th>
+							<th>交易次数</th>
+							<th>操作</th>
+						</tr>
+						<!--周收益排行-->
+						{notempty name="wsypaihang"}
+					   {volist name="wsypaihang" id="wsypaihang"}
+						<tr>
+							<td>
+								{if condition="$key eq 0"}
+								<img src="__HOME_IMG__/No1.png"/>
+								{elseif condition="$key eq 1" /}
+								<img src="__HOME_IMG__/No2.png"/>
+								{elseif condition="$key eq 2" /}
+								<img src="__HOME_IMG__/No3.png"/>
+								{else /}
+								<img src="__HOME_IMG__/Noall.png"/>
+								{/if}
+							</td>
+							<td><img class="headd headimgcss" src="{$wsypaihang.user_id|getheadimg=###}" />
+								<dl>
+									<dt>{$wsypaihang.vip_name}</dt>
+									<dd> <p onclick="setrss({$wsypaihang.user_id},this)">{if condition="$wsypaihang.rss_status eq 1"}已订阅{else /}订阅{/if}</p></dd>
+								</dl>
+							</td>
+							<td>{$wsypaihang.sum_shizhi|shujuw=###}</td>
+							<td>{$wsypaihang.profits_rate}%</td>
+							<td>{$wsypaihang.countid}次</td>
+							<td><a href="{:url('match/userhome',['id'=>$wsypaihang['user_id']])}">TA的战绩</a></td>
+						</tr>
+						 {/volist}
+					{/notempty}
+						
+					</table>
+					<div class="tcdPageCode tcdPageCode3"></div>
+				</div>
+				<div class="proftmain">
+					<table border="0" cellpadding="0" cellspacing="0">
+						<tr>
+							<th>排名</th>
+							<th>用户</th>
+							<th>总资产</th>
+							<th>总收益率</th>
+							<th>交易次数</th>
+							<th>操作</th>
+						</tr>
+						<!--月收益排行-->
+						{notempty name="ysypaihang"}
+					   {volist name="ysypaihang" id="ysypaihang"}
+						<tr>
+							<td>
+								{if condition="$key eq 0"}
+								<img src="__HOME_IMG__/No1.png"/>
+								{elseif condition="$key eq 1" /}
+								<img src="__HOME_IMG__/No2.png"/>
+								{elseif condition="$key eq 2" /}
+								<img src="__HOME_IMG__/No3.png"/>
+								{else /}
+								<img src="__HOME_IMG__/Noall.png"/>
+								{/if}
+							</td>
+							<td><img class="headd headimgcss" src="{$ysypaihang.user_id|getheadimg=###}" />
+								<dl>
+									<dt>{$ysypaihang.vip_name}</dt>
+									<dd> <p onclick="setrss({$ysypaihang.user_id},this)">{if condition="$ysypaihang.rss_status eq 1"}已订阅{else /}订阅{/if}</p></dd>
+									
+								</dl>
+							</td>
+							<td>{$ysypaihang.sum_shizhi|shujuw=###}</td>
+							<td>{$ysypaihang.profits_rate}%</td>
+							<td>{$ysypaihang.countid}次</td>
+							<td><a href="{:url('match/userhome',['id'=>$ysypaihang['user_id']])}">TA的战绩</a></td>
+						</tr>
+						 {/volist}
+					{/notempty}
+						
+					</table>
+					<div class="tcdPageCode tcdPageCode4"></div>
+				</div>
+			</div>
+			<div class="rank left">
+				<div class="ranktitle">
+					<p>月获将榜单</p>
+					<span>/  2018年11月</span>
+					<a href="">查看往期</a>
+				</div>
+				<div class="rankmain">
+					<table>
+						{notempty name="ysy"}
+					   {volist name="ysy" id="ysy" offset="0" length='3'}
+						<tr>
+							<td>{if condition="$key eq 0"}
+								<img src="__HOME_IMG__/No1.png"/>
+								{elseif condition="$key eq 1" /}
+								<img src="__HOME_IMG__/No2.png"/>
+								{elseif condition="$key eq 2" /}
+								<img src="__HOME_IMG__/No3.png"/>
+								{else /}
+								<img src="__HOME_IMG__/Noall.png"/>
+								{/if}
+							</td>
+							<td>
+								<img class="headd headimgcss" src="{$ysypaihang.user_id|getheadimg=###}" />
+								<dl>
+									<dt>{$ysy.vip_name}</dt>
+									<dd> <p onclick="setrss({$ysy.user_id},this)">{if condition="$ysy.rss_status eq 1"}已订阅{else /}订阅{/if}</p></dd>
+								</dl>
+							</td>
+							<td>
+								<dl>
+									<dt>月收益率</dt>
+									<dd><span>{$ysy.profits_rate}%</span></dd>
+								</dl>
+							</td>
+						</tr>
+						 {/volist}
+					{/notempty}
+						
+					</table>
+				</div>
+				<div class="ranktitle">
+					<p>周获将榜单</p>
+					<span>/  2018年11月</span>
+					<a href="">查看往期</a>
+				</div>
+				<div class="rankmain">
+					<table>
+							{notempty name="wsy"}
+						   {volist name="wsy" id="wsy" offset="0" length='3'}
+							<tr>
+								<td>{if condition="$key eq 0"}
+									<img src="__HOME_IMG__/No1.png"/>
+									{elseif condition="$key eq 1" /}
+									<img src="__HOME_IMG__/No2.png"/>
+									{elseif condition="$key eq 2" /}
+									<img src="__HOME_IMG__/No3.png"/>
+									{else /}
+									<img src="__HOME_IMG__/Noall.png"/>
+									{/if}
+								</td>
+								<td>
+									<img class="headd headimgcss" src="{$wsy.user_id|getheadimg=###}" />
+									<dl>
+										<dt>{$wsy.vip_name}</dt>
+										<dd> <p onclick="setrss({$wsy.user_id},this)">{if condition="$wsy.rss_status eq 1"}已订阅{else /}订阅{/if}</p></dd>
+									</dl>
+								</td>
+								<td>
+									<dl>
+										<dt>周收益率</dt>
+										<dd><span>{$wsy.profits_rate}%</span></dd>
+									</dl>
+								</td>
+							</tr>
+							 {/volist}
+						{/notempty}
+						
+					</table>
+				</div>
+				<div class="ranktitle">
+					<p>日获将榜单</p>
+					<span>/  2018年11月</span>
+					<a href="">查看往期</a>
+				</div>
+				<div class="rankmain">
+					<table>
+							{notempty name="rsy"}
+						   {volist name="rsy" id="rsy" offset="0" length='3'}
+							<tr>
+								<td>{if condition="$key eq 0"}
+									<img src="__HOME_IMG__/No1.png"/>
+									{elseif condition="$key eq 1" /}
+									<img src="__HOME_IMG__/No2.png"/>
+									{elseif condition="$key eq 2" /}
+									<img src="__HOME_IMG__/No3.png"/>
+									{else /}
+									<img src="__HOME_IMG__/Noall.png"/>
+									{/if}
+								</td>
+								<td>
+									<img class="headd headimgcss" src="{$rsy.user_id|getheadimg=###}" />
+									<dl>
+										<dt style="text-align: center;">{$rsy.vip_name}</dt>
+										<dd> <p onclick="setrss({$rsy.user_id},this)">{if condition="$rsy.rss_status eq 1"}已订阅{else /}订阅{/if}</p></dd>
+									</dl>
+								</td>
+								<td>
+									<dl>
+										<dt>日收益率</dt>
+										<dd><span>{$rsy.profits_rate}%</span></dd>
+									</dl>
+								</td>
+							</tr>
+							 {/volist}
+						{/notempty}
+						
+					</table>
+				</div>
+			</div>
+		</div>
+		{include file="public/footer" /}
+	
+		<script>
+			$(".profttitle li").on('click',function(){
+				$(".profttitle li").eq($(this).index()).addClass('select').siblings().removeClass('select');
+				$(".proftmain").hide().eq($(this).index()).show();
+			})
+		</script>
+	</body>
+</html>

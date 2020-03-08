@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		{include file="index@public/header_com"/}
+		<link rel="stylesheet" href="__HOME_CSS__/laydate.css" />
+		<script type="text/javascript" src="__HOME_JS__/laydate.js" ></script>
+		<title>{block name="title"}{:config('web_site_title')}{/block}</title>
+	</head>
+	<body>
+{include file="index@public/header" /}
+		<div class="usermain">
+{include file="public/left" /}
+			<div class="userright left">
+				<div class="dettitle">
+					<ul>
+						<li class="select">资金明细</li>
+						
+					</ul>
+				</div>
+				<div class="clear"></div>
+				<div class="dettop">
+					<ul class="time">
+
+						<li {if condition="input('time') eq ''"} class="select"{/if} data=''>全部</li>
+						<li {if condition="input('time') eq 1"} class="select"{/if} data='1'>近1个月</li>
+						<li {if condition="input('time') eq 3"} class="select"{/if} data='3'>近3个月</li>
+						<li {if condition="input('time') eq 12"} class="select"{/if} data='12'>近1年</li>
+					</ul>
+					<!-- <div class="srch">
+						<span>日期</span>
+						<input type="text" id="test1" class="selecttime">
+						<p>~</p>
+						<input type="text" id="test2" class="selecttime">
+						<button id='search'>查询</button>
+					</div> -->
+					<div class="clear"></div>
+					<ul class="datt">
+						<li {if condition="input('type') eq ''"} class="select"{/if} data=''>全部</li>
+						<li {if condition="input('type') eq 1"} class="select"{/if} data='1'>充值</li>
+						<li {if condition="input('type') eq 2"} class="select"{/if} data='2'>提现</li>
+						<li {if condition="input('type') eq 5"} class="select"{/if} data='5'>创建策略</li>
+						<li >平仓策略</li>
+						<li >续期</li>
+						<li >交易综合费用</li>
+						<li >其他</li>
+					</ul>
+					<div class="clear"></div>
+					<div class="dettable">
+						<table border="0" cellpadding="0" cellspacing="0">
+							<tr>
+								<th>交易时间</th>
+								<th>交易类型</th>
+								<th>交易明细</th>
+								<th>交易金额（元）</th>
+								<th>账户余额（元）</th>
+							</tr>
+						{volist name="list" id="vo"}
+							<tr>
+								<td>{$vo.record_time|date="Y-m-d H:i",###}</td>
+								<td>{$vo.type}</td>
+								<td>{$vo.record_info}</td>
+								<td >{$vo.record_affect}</td>
+								<td>{$vo.record_money}</td>
+							</tr>
+						{/volist}
+						</table>
+						{$page}
+						<!-- <div class="tcdPageCode tcdPageCode1"></div> -->
+						<div class="null"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+{include file="index@public/footer"/}
+		<script>
+			var time="{:input('time')}";
+			var type="{:input('type')}";
+			var begin="{:input('begin')}";
+			var end ="{:input('end')}";
+			var url = "{:url('record/index')}?";
+			$(".time li").on('click',function(){
+				$(".time li").eq($(this).index()).addClass('select').siblings().removeClass('select');
+				time = $(this).attr('data');
+				window.location.href=url+'time='+time+'&type='+type+'&begin='+begin+'&end='+end;
+
+			})
+			$(".datt li").on('click',function(){
+				$(".datt li").eq($(this).index()).addClass('select').siblings().removeClass('select')
+				type = $(this).attr('data');
+				window.location.href=url+'time='+time+'&type='+type+'&begin='+begin+'&end='+end;
+			})
+			$('#search').click(function(){
+
+				 begin=$('#test1').val();
+				 end =$('#test2').val();
+
+				 window.location.href=url+'time='+time+'&type='+type+'&begin='+begin+'&end='+end;
+
+			})
+			$(".tcdPageCode1").createPage({
+		        pageCount:1,
+		        current:1,
+		        backFn:function(p){
+		            console.log(p);
+		        }
+		    });
+		</script>
+		<script>
+			//执行一个laydate实例
+			laydate.render({
+			  elem: '#test1'
+			   
+			});
+			laydate.render({
+			  elem: '#test2'
+			   
+			});		
+		</script>
+	</body>
+</html>

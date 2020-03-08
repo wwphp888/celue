@@ -1,0 +1,30 @@
+<div class="articleleft left">
+		<ul>
+			<li>关于我们</li>
+			{notempty name="danyelist"}
+			{volist name="danyelist" id="dyl"}
+			<li><a {if $info.title == $dyl.title}class="bottom_line"{/if} href="{:url('news/index',['id'=>$dyl['id']])}">{$dyl.title}</a></li>
+			{/volist}
+			{/notempty}
+
+			{notempty name="liebiaolist"}
+			{volist name="liebiaolist" id="lib"}
+			<li>{$lib.name}</li>
+				{notempty name="lib.downlist"}
+				{volist name="lib.downlist" id="down"}
+				<li><a {if $info.name == $down.name}class="bottom_line"{/if} href="{:url('news/list',['id'=>$down['id']])}">{$down.name}</a></li>
+					
+				{/volist}
+				{/notempty}
+			{/volist}
+			{/notempty}
+			<!-- <li><a href="">常见问题</a></li>
+			<li><a href="">帮助中心</a></li>
+			<li><a href="">新手指引</a></li>
+			
+			<li>媒体中心</li>
+			<li><a href="">网站公告</a></li>__ROOT__/index/news?id={$dyl.id}
+			<li><a href="">行情资讯</a></li> -->
+			
+		</ul>
+	</div>

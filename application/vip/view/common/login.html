@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+	<head>
+{include file="index@public/header_com"/}
+<title>{block name="title"}{:config('web_site_title')}{/block}</title>
+	</head>
+	<body>
+		<div class="reg">
+			<div class="login-main">
+				<dl>
+					<dt>用户登录</dt>
+					<dd>USER  LOGIN</dd>
+				</dl>
+				<div class="regge">
+					<img src="__HOME_IMG__/user.png" />
+					<span>用户名</span>
+					<input name="vip_username" type="text" />
+				</div>
+				
+				<div class="regge">
+					<img src="__HOME_IMG__/key.png" />
+					<span>密码</span>
+					<input name="vip_password" type="password" />
+				</div>
+				<div class="loginge">
+					<input type="checkbox" id="check" checked="checked"/>
+					<label for="check"><span>记住用户名和密码</span></label>
+				</div>
+				<a href="javascript:;" class="reg-btn">登录</a>
+				<p class="regshow">还没有账号？<a href="{:url('common/reg')}">立即注册！</a></p>
+			</div>
+		</div>
+		<script type="text/javascript">
+			$('.reg-btn').click(function(){
+
+
+				if($("input[name='vip_username']").val()==''||$("input[name='vip_password']").val()==''){
+
+
+					layer.msg('请输入用户名和密码');
+					return false;
+
+
+
+
+				}
+				layer.msg('登录中', {
+						  icon: 16
+						  ,shade: 0.01,time:false 
+					});
+
+				$.post('login',{"vip_username":$("input[name='vip_username']").val(),"vip_password":$("input[name='vip_password']").val()},function(d){
+
+					layer.closeAll();
+					if(d.status==2){
+
+
+						window.location.href='/vip';
+
+
+					}else{
+
+						layer.msg(d.message);
+
+
+					}
+
+
+
+
+
+
+
+
+				},'json')
+
+
+
+
+
+
+
+
+
+			})
+
+
+		</script>
+	</body>
+</html>

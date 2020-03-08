@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		{include file="index@public/header_com"/}
+		<title>{block name="title"}{:config('web_site_title')}{/block}</title>
+	</head>
+	<body>
+{include file="index@public/header"/}
+		<div class="usermain">
+{include file="public/left" /}
+			<div class="userright left">
+				<div class="acctitle">
+					<p>账户管理</p>
+				</div>
+				<div class="accmain">
+					<div class="accge">
+						<p>实名认证</p>
+						<span>实名认证不允许修改、更换、注销</span>
+						<div class="start">{empty name="info.vip_realname"}<img src="__HOME_IMG__/icocuo.png">未设置</div>
+						<a class="yybtn" href="javascript:;">立即设置</a>{else/}<img src="__HOME_IMG__/icodui.png">*{$info.vip_realname|mb_substr=1,2,'utf-8'}</div>{/empty}
+					</div>
+					<div class="accge">
+						<p>登录密码</p>
+						<span>保证账户安全，建议您定期修改登录密码</span>
+						<div class="start"><img src="__HOME_IMG__/icodui.png"></div>
+						<a class="yybtn1" href="javascript:;">修改</a>
+					</div>
+					<div class="accge">
+						<p>支付密码</p>
+						<span>保障账户安全，建议您交易密码区别于登录密码</span>
+						<div class="start"><img src="__HOME_IMG__/icodui.png"></div>
+						<a class="yybtn2" href="javascript:;">修改</a>
+					</div>
+					<div class="accge">
+						<p>登录手机号</p>
+						<span>保障账户与资金安全，是您的重要身份凭证。</span>
+						<div class="start"><img src="__HOME_IMG__/icodui.png"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="yy">
+		<div class="rname">
+			<div class="rnametitle">
+				<p>实名认证</p>
+				<a href="javascript:;">×</a>
+			</div>
+			<div class="clear"></div>
+			<div class="rnamemain">
+				<div class="rge">
+					<p>姓名</p>
+					<input class="rename" type="text" id="realname" placeholder="请输入与身份证姓名一致"/>
+				</div>
+				<div class="rge">
+					<p>身份证</p>
+					<input class="idcard" type="text" id="idcard" placeholder="请输入正确的身份证号码"/>
+				</div>
+				<p class="rnameshow">真实姓名和身份证号码一经认证不予修改</p>
+				<button onclick="idcardverify()">确认</button>
+			</div>
+		</div>
+		</div>
+		<div class="yy1">
+		<div class="rpassowrd">
+			<div class="rnametitle">
+				<p>登录密码</p>
+				<a class="shut" href="javascript:;">×</a>
+			</div>
+			<div class="clear"></div>
+			<div class="rnamemain">
+				<div class="pge">
+					<p>原密码</p>
+					<input class="pass1" type="text" placeholder="请输入原来密码"/>
+				</div>
+				<div class="pge">
+					<p>修改密码</p>
+					<input class="pass2" type="text" placeholder="请输入新密码"/>
+				</div>
+				<div class="pge">
+					<p>确认密码</p>
+					<input class="pass3" type="text" placeholder="请确认新密码"/>
+				</div>
+				<button  onclick="edit_password()">确认</button>
+			</div>
+		</div>
+		</div>
+		<div class="yy2">
+		<div class="rpassowrd">
+			<div class="rnametitle">
+				<p>支付密码</p>
+				<a class="shut1" href="javascript:;">×</a>
+			</div>
+			<div class="clear"></div>
+			<div class="rnamemain">
+				<div class="pge">
+					<p>原密码</p>
+					<input class="pass4" type="text" placeholder="请输入原来密码"/>
+				</div>
+				<div class="pge">
+					<p>修改密码</p>
+					<input class="pass5" type="text" placeholder="请输入新密码"/>
+				</div>
+				<div class="pge">
+					<p>确认密码</p>
+					<input class="pass6" type="text" placeholder="请确认新密码"/>
+				</div>
+				<button  onclick="edit_paypassword()">确认</button>
+			</div>
+		</div>
+		</div>
+{include file="index@public/footer"/}
+		<script>
+			$(".rename").blur(function(){
+				var input1 = $(".rename").val();
+				var input2 = $(".idcard").val();
+				if(input1 == '' || input2 == ''){
+					$(".rnamemain button").css('background-color','#e4e4e4')
+				}else{
+					$(".rnamemain button").css('background-color','#ec3e2e')
+				}
+			})
+			$(".idcard").blur(function(){
+				var input1 = $(".rename").val();
+				var input2 = $(".idcard").val();
+				if(input1 == ''|| input2 == ''){
+					$(".rnamemain button").css('background-color','#e4e4e4')
+				}else{
+					$(".rnamemain button").css('background-color','#ec3e2e')
+				}
+			})
+			function pbtn(demo){
+				$(demo).blur(function(){
+				var pass1 = $(".pass1").val();
+				var pass2 = $(".pass2").val();
+				var pass3 = $(".pass3").val();
+				var pass4 = $(".pass4").val();
+				var pass5 = $(".pass5").val();
+				var pass6 = $(".pass6").val();
+				if(pass1 == ''|| pass2 == '' || pass3 == ''){
+					$(".rnamemain button").css('background-color','#e4e4e4')
+				}else{
+					if(pass2 == pass3){
+						$(".rnamemain button").css('background-color','#ec3e2e')
+					}else{
+						$(".rnamemain button").css('background-color','#e4e4e4')
+					}
+					
+				}
+				if(pass4 == ''|| pass5 == '' || pass6 == ''){
+					$(".rnamemain button").css('background-color','#e4e4e4')
+				}else{
+					if(pass5 == pass6){
+						$(".rnamemain button").css('background-color','#ec3e2e')
+					}else{
+						$(".rnamemain button").css('background-color','#e4e4e4')
+					}
+					
+				}
+			})
+			}
+			pbtn(".pass1");
+			pbtn(".pass2");
+			pbtn(".pass3");
+			pbtn(".pass4");
+			pbtn(".pass5");
+			pbtn(".pass6");
+			$(".yybtn").on('click',function(){
+				$('.yy').show()
+			})
+			$(".rnametitle a").on('click',function(){
+				$('.yy').hide()
+			})
+			$(".yybtn1").on('click',function(){
+				$('.yy1').show()
+			})
+			$(".shut").on('click',function(){
+				$('.yy1').hide()
+			})
+			$(".yybtn2").on('click',function(){
+				$('.yy2').show()
+			})
+			$(".shut1").on('click',function(){
+				$('.yy2').hide()
+			})
+			function edit_password(){
+
+	
+				if($('.pass2').val()!=$('.pass3').val()){
+
+					layer.msg('两次输入不一致');
+					return false;
+				}
+					layer.msg('提交中', {
+						  icon: 16
+						  ,shade: 0.01,time:false 
+					});
+
+				$.post('acount/edit_password',{"password":$('.pass1').val(),"newpass":$('.pass2').val()},function(d){
+						//console.log(111111);
+
+						layer.closeAll();
+						
+						if(d.status==2){
+							layer.msg('修改成功');
+							$('.yy1').hide();	
+						}else{
+
+							layer.msg(d.message);
+						}
+  		 				
+				},'json');
+
+
+
+
+			}
+			function edit_paypassword(){
+
+	
+				if($('.pass5').val()!=$('.pass6').val()){
+
+					layer.msg('两次输入不一致');
+					return false;
+				}
+					layer.msg('提交中', {
+						  icon: 16
+						  ,shade: 0.01,time:false 
+					});
+
+				$.post('acount/edit_paypassword',{"password":$('.pass4').val(),"newpass":$('.pass5').val()},function(d){
+						//console.log(111111);
+
+						layer.closeAll();
+						
+						if(d.status==2){
+							layer.msg('修改成功');
+							$('.yy2').hide();	
+						}else{
+
+							layer.msg(d.message);
+						}
+  		 				
+				},'json');
+
+
+
+
+			}
+
+			function idcardverify(){
+				var realname = $("#realname").val();
+				var idcard = $("#idcard").val();
+				if(realname == ''){
+					layer.msg("真实姓名不能为空");
+					return false;
+				}
+				if(idcard == ''){
+					layer.msg("身份证号不能为空");
+					return false;
+				}
+				$.post("acount/idcardverify",{"realname":realname,"idcard":idcard},function(d){
+					if(d.status == 1){
+						layer.msg("认证成功");
+						window.location.reload();
+
+					}else{
+						layer.msg(d.message);
+					}
+				})
+			}
+		</script>
+	</body>
+</html>

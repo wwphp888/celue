@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		{include file="public/header_com" /}
+		<title></title>
+	</head>
+	<body>
+		{include file="public/header" /}
+		<div class="article">
+			<p>首页><a href="">关于我们</a></p>
+			{include file="news/left" /}
+			<div class="articleright left">
+				<div class="listtitle">
+					<p>关于我们</p>
+				</div>
+				<div class="infomain">
+					<h1>{$info.title}</h1>
+
+					<div class="infocontent">{$info.content}</div>
+				</div>
+			</div>
+		</div>
+	{include file="public/footer" /}
+	</body>
+</html>

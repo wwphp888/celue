@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>{block name="title"}{:config('web_site_title')}{/block}</title>
+		{include file="index@public/header_com"/}
+	</head>
+	<body>
+		{include file="index@public/header" /}
+		<div class="usermain">
+			{include file="public/left" /}
+			<div class="userright left">
+				<div class="dopetitle">
+					<p>消息中心</p>
+				</div>
+				<div class="clear"></div>
+				<div class="dopemain">
+					<div class="dopet">
+					<ul>
+						<a href="{:url('@vip/message')}"><li class="select">全部</li></a>
+						<a href="{:url('@vip/message/readend')}"><li>已读</li></a>
+						<a href="{:url('@vip/message/news')}"><li>未读</li></a>
+					</ul>
+					</div>
+					{foreach item="list" name="list"}
+					<div class="dopege">
+						<p>{if condition="$list.status eq 0"}<img src="__HOME_IMG__/dian.png">未读{else /}<img src="__HOME_IMG__/dian1.png">已读{/if}</p>
+						<span class="dopecenter" title="{$list.content}" onclick="read({$list.id})">{$list.content|cnsubstr=###,20}</span>
+						<span class="dopetime">{$list.send_time|date="Y-m-d H:i:s",###}</span>
+					</div>
+					{/foreach}
+					
+					{$page}
+					<div class="tcdPageCode tcdPageCode1"></div>
+					<div class="null"></div>
+				</div>
+			</div>
+		</div>
+		{include file="index@public/footer"/}
+		<script>
+		    function read(id){
+		    	$.post("message/read",{"id":id},function(d){
+					if(d.status == 1){
+						layer.msg("已设为已读");
+						window.location.reload();
+
+					}else{
+						layer.msg(d.message);
+					}
+				})
+		    }
+		</script>
+	</body>
+</html>

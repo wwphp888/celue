@@ -1,0 +1,34 @@
+			<div class="userleft left">
+				<ul id="nav">
+					<li><a href="{:url('@vip')}"><p class="select"><img src="__HOME_IMG__/user1.png"><span>个人中心</span></p></a></li>
+					<li><a href="{:url('@vip/recharge')}"><p><img src="__HOME_IMG__/user2.png"><span>&nbsp;&nbsp;&nbsp;充值</span></p></a></li>
+					<li><a href="{:url('@vip/withdraw')}"><p><img src="__HOME_IMG__/user3.png"><span>&nbsp;&nbsp;&nbsp;提现</span></p></a></li>
+					<li><a href="{:url('@vip/record')}"><p><img src="__HOME_IMG__/user4.png"><span>资金明细</span></p></a></li>
+					<li><a href="{:url('@vip/bank')}"><p><img src="__HOME_IMG__/user5.png"><span>银行卡管理</span></p></a></li>
+					<li><a href="{:url('@vip/acount')}"><p><img src="__HOME_IMG__/user6.png"><span>账户安全</span></p></a></li>
+					<li><a href="{:url('@vip/trade')}"><p><img src="__HOME_IMG__/user7.png"><span>我的策略</span></p></a></li>
+					<!-- <li><a href="{:url('@vip/spread')}"><p><img src="__HOME_IMG__/user8.png"><span>我的推广</span></p></a></li> -->
+					<li><a href="{:url('@vip/message')}"><p><img src="__HOME_IMG__/user9.png"><span>消息中心</span></p></a></li>
+				</ul>
+			</div>
+			<script type="text/javascript">
+						var urlstr = location.href;
+					    var urlstatus=false;
+					    $("#nav li").each(function(){  
+					    		
+					    	 if ((urlstr + '/').indexOf($(this).find('a').attr('href')) > -1&&$(this).find('a').attr('href')!='/vip.html') {
+					    	 	console.log($(this).find('a'))
+					          $(this).find('p').addClass('select');
+					          urlstatus =true;
+					        } else {
+					          $(this).find('p').removeClass('select');
+					        }
+					    	
+					    });
+					    if(!urlstatus){
+
+					    	$("#nav li").eq(0).find('p').addClass('select');
+					    	
+					    }
+
+			</script>

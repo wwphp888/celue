@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	{include file="index@public/header_com"/}
+		<title>{block name="title"}{:config('web_site_title')}{/block}</title>
+		<script type="text/javascript" src="__HOME_JS__/qrcode.min.js"></script>
+		<script type="text/javascript" src="__HOME_JS__/clipboard.min.js"></script>
+	</head>
+	<body>
+{include file="index@public/header" /}
+		<div class="usermain">
+{include file="public/left" /}
+			<div class="userright left">
+				<div class="extitle">
+					<p>推广提成</p>
+				</div>
+				<p class="exshow">新用户通过您的推广链接注册以后，属于您的邀请用户。该用户每发生一笔策略，策略完成后您就会或得交易综合续期费用的10%，
+当您的提成到达一定程度后，您就可以随时取出，也可以用护本站策略。</p>
+				<div class="extop">
+					<dl>
+						<dt><img src="__HOME_IMG__/ex1.png"></dt>
+						<dd>1.邀请好友注册</dd>
+					</dl>
+					<img src="__HOME_IMG__/ex0.png" />
+					<dl>
+						<dt><img src="__HOME_IMG__/ex2.png"></dt>
+						<dd>2.被邀请人发起策略</dd>
+					</dl>
+					<img src="__HOME_IMG__/ex0.png" />
+					<dl>
+						<dt><img src="__HOME_IMG__/ex3.png"></dt>
+						<dd>3.卖出持仓策略</dd>
+					</dl>
+					<img src="__HOME_IMG__/ex0.png" />
+					<dl>
+						<dt><img src="__HOME_IMG__/ex4.png"></dt>
+						<dd>4.邀请人获得提成</dd>
+					</dl>
+				</div>
+				<div class="exlink">
+					<span>您的邀请链接</span>
+					<p id="copy-text">{$spread_url}</p>
+					<button data-clipboard-target="#copy-text"  data-clipboard-action="copy" id="copy">复制链接</button>
+				</div>
+				<style type="text/css">
+					#code{
+
+						width:160px;height:160px;
+						float: left; margin-top: 57px;
+					    margin-left: 50px;
+					    border: 1px solid #7f7f7f;
+					    padding: 10px;
+					}
+					#code img{
+
+						width:100%;
+					}
+				</style>
+				
+				<div class="method">
+					<span>分享方式</span>
+					<a href="">
+						<dl>
+							<dt><img src="__HOME_IMG__/wxico.png"/></dt>
+							<dd>微信</dd>
+						</dl>
+					</a>
+					<a href="">
+						<dl>
+							<dt><img src="__HOME_IMG__/pengyou.png"/></dt>
+							<dd>朋友圈</dd>
+						</dl>
+					</a>
+					<a href="">
+						<dl>
+							<dt><img src="__HOME_IMG__/QQ.png"/></dt>
+							<dd>QQ</dd>
+						</dl>
+					</a>
+					<a href="">
+						<dl>
+							<dt><img src="__HOME_IMG__/QQkongjian.png"/></dt>
+							<dd>QQ空间</dd>
+						</dl>
+					</a>
+					
+					<!-- <img src="__HOME_IMG__/zhuanfa.png" /> -->
+					<div id="code"></div>
+				</div>
+				<div class="exdata">
+					<div class="exdatatitle">
+						<ul>
+							<li class="select">推广人记录</li>
+							<li>提成数据</li>
+						</ul>
+					</div>
+					<div class="exdatamain">
+						<table class="promoters" cellpadding="0" cellspacing="0" border="0">
+							<tr>
+								<th>手机号码</th>
+								<th>注册时间</th>
+								<th>用户名</th>
+								<th>注册IP</th>
+							</tr>
+							{volist name="list" id="vo"}
+							<tr>
+								<td>{$vo.vip_phone}</td>
+								<td>{$vo.register_time}</td>
+								<td>{$vo.vip_name}</td>
+								<td>注册IP</td>
+							</tr>
+							{/volist}
+						</table>
+						{$page}
+					</div>
+				</div>
+			</div>
+		</div>
+		{include file="index@public/footer"/}
+		<script type="text/javascript">
+		$(function(){
+
+			var qrcode = new QRCode("code");
+
+			function makeCode () {      
+
+			    
+			    qrcode.makeCode('{:$spread_url}');
+			}
+
+			makeCode();
+
+
+		})
+		//复制按钮事件绑定
+var clipboard = new ClipboardJS('#copy');
+
+    clipboard.on('success', function(e) {
+        console.log(e);
+        alert('复制成功!');
+    });
+
+    clipboard.on('error', function(e) {
+        console.log(e);
+    });
+		</script>
+	</body>
+</html>

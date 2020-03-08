@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>牛人战绩</title>
+		{include file="public/header_com" /}
+	</head>
+	<body>
+		{include file="public/header" /}
+		<div class="sptop">
+			<div class="sptop-title">
+				<p>用户信息</p>
+			</div>
+			<div class="sptop-main">
+				<img class="headimgcss113" src="{$info.id|getheadimg=###}" />
+				<dl>
+					<dt>{$info.vip_name|hidecard=###,2}<span>最近动态：{$info['last_login_time']|second2string=###,1,1}</span></dt>
+					<dd>该用户很懒什么都没有留下~~</span></dd>
+				</dl>
+				<p>关注热度：<span>{$info['hotnum']}</span></p>
+				<!-- <span>最近发布时间：2天前</span> -->
+				  <a href="javascript:void(0)"  onclick="setrss({$info.id},this)">{if condition="$info.rss_status eq 1"}已订阅{else /}订阅{/if} </a>
+				
+			</div>
+		</div>
+		<div class="spcenter">
+			<div class="spleft">
+				<div class="spleft-title">
+					<p>实盘策略</p>
+				</div>
+				<div class="spleft-main">
+					<div class="spleft-ge">
+						<img src="__HOME_IMG__/money.png"/>
+						<dl>
+							<dt>总资产</dt>
+							<dd>{$shipan.sum_shizhi|shujuw=###}元</dd>
+						</dl>
+					</div>
+					<div class="spleft-ge">
+						<img src="__HOME_IMG__/shizhi.png"/>
+						<dl>
+							<dt>总收益率</dt>
+							<dd>{$shipan.profits_rate|default="0.00"}%</dd>
+						</dl>
+					</div>
+					<div class="spleft-ge">
+						<img src="__HOME_IMG__/jiaoyi.png"/>
+						<dl>
+							<dt>交易次数</dt>
+							<dd>{$shipan.countid|default="0"}次</dd>
+						</dl>
+					</div>
+					<div class="clear"></div>
+					<ul>
+						<li>月收益率：{$shipany.profits_rate|default="0.00"}%</li>
+						<li>周收益率：{$shipanw.profits_rate|default="0.00"}%</li>
+						<li>日收益率：{$shipanr.profits_rate|default="0.00"}%</li>
+					</ul>
+				</div>
+			</div>
+			<div class="spleft">
+				<div class="spleft-title">
+					<p>炒股大赛</p>
+				</div>
+				<div class="spleft-main">
+					<div class="spleft-ge">
+						<img src="__HOME_IMG__/money.png"/>
+						<dl>
+							<dt>总资产</dt>
+							<dd>{$dasai.sum_shizhi|shujuw=###}元</dd>
+						</dl>
+					</div>
+					<div class="spleft-ge">
+						<img src="__HOME_IMG__/shizhi.png"/>
+						<dl>
+							<dt>总收益率</dt>
+							<dd>{$dasai.profits_rate|default="0.00"}%</dd>
+						</dl>
+					</div>
+					<div class="spleft-ge">
+						<img src="__HOME_IMG__/jiaoyi.png"/>
+						<dl>
+							<dt>交易次数</dt>
+							<dd>{$dasai.countid|default="0"}次</dd>
+						</dl>
+					</div>
+					<div class="clear"></div>
+					<ul>
+						<li>月收益率：{$daisaiy.profits_rate|default="0.00"}%</li>
+						<li>周收益率：{$daisaiw.profits_rate|default="0.00"}%</li>
+						<li>日收益率：{$daisair.profits_rate|default="0.00"}%</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="spbottom">
+			{notempty name="list"}
+			{volist name="list" id="list"}
+			<div class="spbottom-ge">
+				<img src="{$info.id|getheadimg=###}" />
+				<dl>
+					<dt>{$list.user_id|getvip_name=###,1}</dt>
+					<dd><span>【{$list.czname}】</span></dd>
+				</dl>
+				<dl>
+					<dt>{$list.gupiao_name}</dt>
+					<dd><span>{$list.gupiao_code}</span></dd>
+				</dl>
+				<dl>
+					<dt>止盈价 <span class="red">{$list.stop_win}</span></dt>
+					<dd>止损价  <span class="green">{$list.stop_down}</span></dd>
+				</dl>
+				<dl>
+					{if condition="$list.cztype eq 1"}
+					<dt>买入价  <span>{$list.trush_price}</span></dt>
+					{else /}
+					<dt>卖出价  <span>{$list.sell_price}</span></dt>
+					{/if}
+					<dd>当前价  <span>{$list.now_price}</span></dd>
+				</dl>
+				<dl>
+					<dt>股票数量  <span>{$list.trush_number}</span></dt>
+					{if condition="$list.cztype eq 1"}
+					<dd>持仓盈亏  <span {if condition="$list.yingkui gt 0"} class="red"{else /} class="green"{/if}>{$list.yingkui}</span></dd>
+					{else /}
+					<dd>信用金  <span>{$list.credit_money}</span></dd>
+					{/if}
+				</dl>
+				<dl>
+					{if condition="$list.cztype eq 1"}
+					<dt>买入时间  <span>{$list.creat_time|date="Y-m-d H:i:s",###}</span></dt>
+					<dd>操作时间  <span class="red">{$list.caozuotime}</span></dd>
+					{else /}
+					<dt>卖出时间  <span>{$list.sell_time|date="Y-m-d H:i:s",###}</span></dt>
+					<dd>收益率  <span class="red">{$list.profits_rate}%</span></dd>
+					{/if}
+					
+				</dl>
+				<a href="./index/invest">跟买</a>
+			</div>
+			 {/volist}
+			{/notempty}
+			
+		
+		</div>
+		{include file="public/footer" /}
+	</body>
+</html>

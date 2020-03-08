@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		{include file="index@public/header_com"/}
+		<title>{block name="title"}{:config('web_site_title')}{/block}</title>
+	</head>
+	<body>
+{include file="index@public/header" /}
+		<div class="usermain">
+{include file="public/left" /}
+			<div class="userright left">
+	{include file="public/acount"/}
+              <style>
+                #fuyou img{
+                	max-width:100%;
+                }
+              </style>
+				<div class="rgbottom">
+					<div class="public" id="publicmain">
+						<p class="select">在线充值</p>
+						<p>线下充值</p>
+						<a href="{:url('@vip/recharge/log')}">充值记录</a>
+					</div>
+					<div id="bodyregs">
+					<div class="rg">
+						<div class="rgge2">
+						<p>充值金额</p>
+						<input type="text" id="money" placeholder="请输入您要充值的金额"/>
+						<span>元</span>
+						</div>
+						<div class="clear"></div>
+						<div class="rgge2">
+							<p>充值方式</p>
+							<ul id="onlinepaytype">
+								<!--支付宝H5-->
+								<li  id="alipaywap">
+									<img src="__HOME_IMG__/alipay.png">
+									<img class="dui" src="__HOME_IMG__/dui.png" />
+								</li>
+								<!--快捷支付-->
+								<!--<li id="quickpay">
+									<img src="__HOME_IMG__/kuaijie.png">
+									<img class="dui" src="__HOME_IMG__/dui.png" />
+								</li>-->
+                                <li class="select" id="fuyou">
+                                  <img src="__HOME_IMG__/kuaijie.png">
+                                  <img class="dui" src="__HOME_IMG__/dui.png" />
+                                </li>
+							</ul>
+						</div>
+						<div class="clear"></div>
+                      	<div class="rgge2">
+						<p>支付银行卡号</p>
+						<input type="text" id="bankcard" placeholder="请输入您要用的银行卡"/>
+						<span></span>
+						</div>
+						<div class="clear"></div>
+						<button class="rgbtn" onclick="torecharge()">确认充值</button>
+						<div class="rgshow">
+							<ul>
+								<li>温馨提示</li>
+								<li>1、您使用的银行卡必须是本人的，银行卡户名必须与平台填写的姓名完全一致</li>
+								<li>2、为了您的资金安全，您的资金将由第三方充值管理</li>
+								<li>3、充值前先进行实名认证并绑定银行卡，如遇到问题请联系客服：400-400-123456</li>
+								<li>4、禁止洗钱、信用卡套现、虚假交易等行为，一经确认，将终止该账户使用；</li>
+								<li>5、为了您的资金安全，建议充值前进行实名认证，手机绑定、设置提现密码；</li>
+							</ul>
+						</div>
+					</div>
+
+					<div class="rg" style="display: none;">
+
+						<div class="rgge1">
+						<p>充值方式</p>
+						<div id="poty">
+							{foreach item="chargelist" name="chargelist" key="k"}
+							<div class="payofftype {if condition="$k eq 0"}payoffselect{/if}" dataid="{$chargelist.id}">
+								<div class="payop_1">{$chargelist.title}</div>
+								{if condition="$chargelist.type eq 1"}
+								<div class="payop_2">
+									<p>收款账号：{$chargelist.number}</p>
+									<p>扫码二维码转账</p>
+								</div>
+								<div class="payop_3">
+									<img src="{$chargelist.img|get_file_path=###}">
+								</div>
+								{else /}
+								<div class="payop_2">
+								<p>收款账号：{$chargelist.number}</p>
+								<p>所属银行：{$chargelist.bankname}</p>
+								</div>
+								<div class="payop_3">
+									<div class="pyp3_top">开户人:{$chargelist.name}</div>
+									<div class="pyp3_bottom">开户行：{$chargelist.bank_address}</div>
+								</div>
+								{/if}
+							</div>
+							{/foreach}
+							
+						</div>
+						</div>
+						<div class="clear"></div>
+						<div class="rgge2">
+						<p>充值金额</p>
+						<input style="margin-left: 20px;" type="text" id="payoffmoney" placeholder="请输入您要充值的金额"/>
+						<span>元</span>
+						</div>
+						
+						<div class="clear"></div>
+						<div class="rgge2">
+						<p>备注信息</p>
+						<textarea style="margin-left: 20px;" id="payoffinfo" placeholder="请输入备注：如充值订单号"></textarea> 
+						<span></span>
+						</div>
+						<div class="clear"></div>
+						<button class="rgbtn" onclick="payoff()">确认充值</button>
+						<div class="rgshow">
+							<ul>
+								<li>温馨提示</li>
+								<li>1、您使用的银行卡必须是本人的，银行卡户名必须与平台填写的姓名完全一致</li>
+								<li>2、为了您的资金安全，您的资金将由第三方充值管理</li>
+								<li>3、充值前先进行实名认证并绑定银行卡，如遇到问题请联系客服：400-400-123456</li>
+								<li>4、禁止洗钱、信用卡套现、虚假交易等行为，一经确认，将终止该账户使用；</li>
+								<li>5、为了您的资金安全，建议充值前进行实名认证，手机绑定、设置提现密码；</li>
+							</ul>
+						</div>
+					</div>
+				 </div>
+				</div>
+			</div>
+		</div>
+{include file="index@public/footer"/}
+		<script>
+			$(".rgge2 li").on('click',function(){
+				$(".rgge2 li").eq($(this).index()).addClass('select').siblings().removeClass('select');
+              //console.log($(this).attr("id"));
+              	if($(this).attr("id")=="fuyou"){
+                  
+					$(".rgge2").eq(2).show();               
+                }else{
+                	$(".rgge2").eq(2).hide();   
+                }
+			})
+			$("#poty .payofftype").on('click',function(){
+				$("#poty .payofftype").eq($(this).index()).addClass('payoffselect').siblings().removeClass('payoffselect');
+			})
+			$("#publicmain p").on('click',function(){
+				$("#publicmain p").eq($(this).index()).addClass('select').siblings().removeClass('select');
+				$("#bodyregs .rg").eq($(this).index()).show().siblings().hide();
+			})
+
+		function torecharge(){
+			var payofftype = $("#onlinepaytype .select").attr("id");
+			var money = $("#money").val();
+			if(payofftype ==''){
+					layer.msg('请选择充值方式');
+					return false;
+			}
+			if(money == '' || payoffmoney < 1){
+					layer.msg('请填写充值金额，最低1元起');
+					return false;
+			}
+          	if(payofftype=="fuyou" && $('#bankcard').val()==''){
+            
+            	layer.msg('支付类型，需要填入银行卡号');
+					return false;
+            
+            }
+			if(payofftype == 'alipaywap'||payofftype == 'quickpay'||payofftype == 'fuyou'){
+              	
+				var url =payofftype == 'fuyou'? "payofftype=" + payofftype + "&money=" + money+"&bankcard="+$('#bankcard').val():"payofftype=" + payofftype + "&money=" + money;
+              	//var url ="payofftype=" + payofftype + "&money=" + money;
+                    window.open("/vip/recharge/payonline?" + url);
+			}
+		
+			/*layer.msg('提交中', {
+					  icon: 16
+					  ,shade: 0.01,time:false 
+				});
+
+			$.get('recharge/payonline',{"payofftype":payofftype,"money":money},function(d){
+
+					layer.closeAll();
+					
+					if(d.status==2){
+						layer.msg('提交成功，请等待审核');
+						window.location.reload();
+					}else{
+
+						layer.msg(d.message);
+					}
+		 				
+			},'json');*/
+		}
+
+		function payoff(){
+			var payofftype = $("#poty .payoffselect").attr("dataid");
+			var payoffmoney = $("#payoffmoney").val();
+			var payoffinfo = $("#payoffinfo").val();
+			if(payofftype < 1){
+					layer.msg('请选择充值方式');
+					return false;
+			}
+			if(payoffmoney == '' || payoffmoney < 1){
+					layer.msg('请填写充值金额，最低1元起');
+					return false;
+			}
+			if(payoffinfo == ''){
+					layer.msg('请填写备注信息，方便管理员尽快审核');
+					return false;
+			}
+
+
+				//console.log(payofftype);
+				
+					layer.msg('提交中', {
+						  icon: 16
+						  ,shade: 0.01,time:false 
+					});
+
+				$.post('recharge/payoff',{"payofftype":payofftype,"payoffmoney":payoffmoney,"payoffinfo":payoffinfo},function(d){
+
+						layer.closeAll();
+						
+						if(d.status==2){
+							layer.msg('提交成功，请等待审核');
+							window.location.reload();
+						}else{
+
+							layer.msg(d.message);
+						}
+  		 				
+				},'json');
+		}
+		</script>
+	</body>
+</html>

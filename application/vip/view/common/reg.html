@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+	<head>
+{include file="index@public/header_com"/}
+<title>{block name="title"}{:config('web_site_title')}{/block}</title>
+	</head>
+	<body>
+		<div class="reg">
+			<form>
+			<div class="reg-main">
+				<dl>
+					<dt>用户注册</dt>
+					<dd>USER  LOGIN</dd>
+				</dl>
+              	<div class="regge">
+					<img src="__HOME_IMG__/user.png" />
+					<span>邀请码</span>
+					<input name="recommendCode"  type="text" placeholder="可不填" />
+				</div>
+				<div class="regge">
+					<img src="__HOME_IMG__/user.png" />
+					<span>手机号</span>
+					<input name="vip_phone" type="text" />
+				</div>
+				<div class="regge1">
+					<img src="__HOME_IMG__/yzm.png" />
+					<input name="phone_code" type="text" />
+					<button type="button" id="get_phone_code">获取验证码</button>
+				</div>
+				<div class="regge">
+					<img src="__HOME_IMG__/key.png" />
+					<span>密码</span>
+					<input name="vip_password" type="password" />
+				</div>
+				<div class="regge">
+					<img src="__HOME_IMG__/key.png" />
+					<span>确认密码</span>
+					<input name="vip_repassword" type="password" />
+				</div>
+				<div class="agree">
+						<label class="my_protocol" style="margin-top: 25px;margin-left: 25px;">
+						      <input class="input_agreement_protocol" type="checkbox" name="xieyi" />
+						      <span></span>
+						</label>
+						<p style="margin-top: 25px;">已阅读并同意<a href="javascript:void(0)" onclick="clickreg()">《平台注册协议》</a></p>
+					</div>
+				<a href="javascript:;" class="reg-btn">注册</a>
+				<p class="regshow">已有账号？<a href="{:url('common/login')}">立即登录！</a></p>
+			</div>
+			</form>
+		</div>
+		<script type="text/javascript">
+
+			$('#get_phone_code').click(function(){
+
+
+				$('#get_phone_code').attr({"disabled":"disabled"}).css('background','#776e6d');
+			         layer.msg('发送中', {
+						  icon: 16
+						  ,shade: 0.01,time:false 
+					});
+			       $.post('/vip/common/sendcode',{"vip_phone":$('input[name="vip_phone"]').val()},function(d){
+		  		 	if(d.status==2){
+		  		 	layer.closeAll();
+		  		 	layer.msg('发送成功');
+		  		 	var leftTime = 60;
+		            var timer = setInterval(function(){  //倒计时
+		                $('#get_phone_code').text(leftTime+'秒');
+		                leftTime--;
+		                if(leftTime==0){ //重新发送
+		                    clearInterval(timer);
+		                    $('#get_phone_code').removeAttr('disabled').text('重新获取').css('background','#ec3e2e');
+		                }
+		            },1000);
+		           }else{
+
+		           		$('#get_phone_code').removeAttr('disabled').text('重新获取').css('background','#ec3e2e');
+		           		layer.msg(d.message);
+		           }
+
+		  		},'json');    
+
+
+
+
+			})
+
+		$('.reg-btn').click(function(){
+
+			//同意协议
+				var xieyi = $("input[name='xieyi']:checked").val();
+				if(xieyi !== 'on'){
+					layer.msg("请先阅读并同意协议条款");
+					return false;
+				}
+				
+				var data = {};
+				var error = 0;
+			    $.each($('form').serializeArray(),function(i,val){
+				
+				data[val.name] = val.value;
+				if(val.value==''&& val.name != 'recommendCode'){
+					error++;
+				}
+
+			})
+			if(error>0){
+
+				layer.msg('输入信息不完整');
+			 	return false;
+
+
+			}	
+
+			 if(data['vip_repassword']!=data['vip_password']){
+
+			 	layer.msg('密码输入不一致');
+			 	return false;
+			 }
+			 layer.msg('发送中', {
+						  icon: 16
+						  ,shade: 0.01,time:false 
+			});
+			 $.post('reg',data,function(d){
+			 	layer.closeAll();
+			 	if(d.status==2){
+			 		
+		  		 	layer.msg('注册成功');
+
+			 		
+			 		setTimeout(function(){ window.location.href ='login';}, 2000);
+
+			 	}else{
+
+			 		layer.msg(d.message);
+			 	}
+
+
+
+
+
+
+			 },'json')
+
+
+
+
+
+		})
+
+
+		function clickreg(){
+			$.post('/vip/common/clickreg',function(d){
+				layer.open({
+					  type: 1,
+					  title: '平台注册协议',
+					  skin: 'newlayer_content',
+					  shadeClose: true,
+					  shade: 0.5,
+					  area: ['850px', '580px'],
+					  content: d 
+					}); 
+			})
+		}
+
+
+		</script>
+	</body>
+</html>

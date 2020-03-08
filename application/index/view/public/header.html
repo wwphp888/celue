@@ -1,0 +1,39 @@
+<div class="header-top">
+			<div class="main">
+				<p class="left">服务热线：{:config('contact_tell')}（工作时间：08:30 - 20:30（周末节假日除外））</p>
+				{if $_SESSION['vip_id'] == ''}
+				<div class="right"> <!--未登录状态-->
+					<ul>
+						<li><a href="{:url('/vip/common/login')}">登录</a></li>
+						<li>|</li>
+						<li><a href="{:url('/vip/common/reg')}">注册</a></li>
+					</ul>
+				</div>
+				{else /}
+				 <div class="right">
+					<ul>
+						<li>欢迎来到{:config('web_site_slogan')}！  <span><a href="{:url('/vip/index')}">{$_SESSION['vip_name']}</a></span></li>
+						<li>|</li>
+						<li><a href="{:url('index/index/outlogin')}">退出 </a></li>
+						<li>|</li>
+						<li>站内信（<a href="{:url('@vip/message')}"><span style="color: red">{$newmsg}</span></a>）</li>
+					</ul>
+				</div> 
+				{/if}
+			</div>
+		</div>
+		<div class="header">
+			<div class="main">
+				<a class="logo left" href="/"><img src="__HOME_IMG__/LOGO.png"/></a>
+				<div class="nav right">
+					 {volist name="main_nav" id="menu"}
+					<a  {php} if (is_page_active($menu['url']) ) echo "class='selectnav'";{/php}  href={$menu.url} target="{$menu.target}">{$menu.title}</a>
+					 {/volist}
+					<!-- <a href="">点买策略</a>
+					<a href="">炒股大赛</a>
+					<a href="">牛人跟股</a>
+					<a href="">行情资讯</a>
+					<a href="">APP下载</a> -->
+				</div>
+			</div>
+		</div>

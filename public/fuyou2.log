@@ -1,0 +1,60 @@
+Array
+(
+    [order_st] => 05
+    [pay_type] => DIRPAY
+    [mchnt_cd] => 0001000F2254929
+    [order_pay_code] => 10EC
+    [fy_ssn] => 002014970638
+    [user_id] => 2
+    [order_amt] => 100
+    [card_no] => 6217002340022586640
+    [order_id] => 15555663828438
+    [order_date] => 20190418
+    [RSA] => exXW0O4CNXQR6A0W+veWoddjumRYF5/yyAFvPP0Plnq/wFzATIzVlWjXXWWMWMeiGrTGiFUx+mCCOFbYGWqTEUr24HtrUn4A7kGcqPtrAd+hZYW/l7nx60Whi7te/b+LAEnGDLujS+Cb0lAJRPze1psv2dGPFu5S6oriNMz6SBA=
+    [order_pay_msg] => 交易金额低于业务单笔最小金额
+)
+Array
+(
+    [order_st] => 11
+    [pay_type] => DIRPAY
+    [mchnt_cd] => 0001000F2254929
+    [order_pay_code] => 0000
+    [fy_ssn] => 002014972308
+    [user_id] => 2
+    [order_amt] => 1000
+    [card_no] => 6217002340022586640
+    [order_id] => 15555664525193
+    [order_date] => 20190418
+    [RSA] => GzNkXlE97wgTAoiT/o6tlYDw6FRbf5Y4qYXGt4D2l7DgwhqfBEAbhoYzJsTJXyiz4x3OCDbmLd0jXKEEH+j5AllH2wCjP/W8IQB0BU9cGcY0FctEFMaanTpc6ZnybToveJqPz7YDtHZPhxSNzHNFlTsqd2HXEJRh65jsbYAwqA8=
+    [order_pay_msg] => 成功
+)
+Array
+(
+    [order_st] => 05
+    [pay_type] => DIRPAY
+    [mchnt_cd] => 0001000F2254929
+    [order_pay_code] => 10EC
+    [fy_ssn] => 002015034187
+    [user_id] => 3
+    [order_amt] => 100
+    [card_no] => 6222081606000979625
+    [order_id] => 15555683747458
+    [order_date] => 20190418
+    [RSA] => oLlwqh3UZ9GlP1BdwNv3ZOfh1jLe86RXuZxqDxfbqtaovomyDweonvkipY+7xBnMep2kuq5nRoOLnXqPJIpvI2hVyEVIIgarcnQEDad14ZY7zmD+BrbH7e15QCreRDbN81wpnbL8wtWgIiSbC/yU6Br7dfQUQcMb2+ed3jyZhTg=
+    [order_pay_msg] => 交易金额低于业务单笔最小金额
+)
+Array
+(
+    [order_st] => 05
+    [pay_type] => DIRPAY
+    [mchnt_cd] => 0001000F2254929
+    [order_pay_code] => 100017
+    [fy_ssn] => 002015035562
+    [user_id] => 3
+    [order_amt] => 10000
+    [card_no] => 6222081606000979625
+    [order_id] => 15555684272982
+    [order_date] => 20190418
+    [RSA] => K1TR+3TIpBOpqaD2mjdw0xhkTc8GJdBrvNag6hlmx7CuYukPvV5VQ6WyP44GMhQY4vd4xe98aqZR+TZRiA1StNt06GSWEB7SNAHBqJRWdw7f5N7Rx/ZWiMj+N5SRMLs1KP7/FSwg5vQTKJ2b6fv3smZ0eeqURGdL6s9YX8CrBeY=
+    [order_pay_msg] => 卡上的余额不足[1000051]
+)

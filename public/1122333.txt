@@ -1,0 +1,25 @@
+Array
+(
+    [order_no] => OR1556070660980
+    [user_id] => 1
+    [gupiao_name] => 平安银行
+    [gupiao_code] => 000001
+    [now_price] => 14.46
+    [credit_money] => 500
+    [credit_rate] => 3
+    [stop_win] => 18.79
+    [stop_down] => 10.95
+    [trush_price] => 14.46
+    [trush_number] => 100
+    [trush_no] => 
+    [service_money] => 85
+    [pay_service_money] => 12.291
+    [defer_money] => 15
+    [pay_defer_money] => 0
+    [defer_status] => 1
+    [creat_time] => 1556070660
+    [buy_type] => 2
+    [status] => 2
+    [deal_number] => 100
+    [deal_time] => 1556070660
+)
